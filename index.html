@@ -703,8 +703,41 @@
     });
   });
 </script>
+	<script>
+document.getElementById("searchInput").addEventListener("input", function() {
+  const filter = this.value.toLowerCase().trim();
+  const gallery = document.getElementById("gallery");
+  const items = Array.from(gallery.getElementsByClassName("gallery-item"));
+
+  // Si no hay texto, se muestra todo en el orden original
+  if (filter === "") {
+    items.forEach(item => gallery.appendChild(item));
+    return;
+  }
+
+  // Separar los que coinciden y los que no
+  const matches = [];
+  const others = [];
+
+  items.forEach(item => {
+    const altText = item.querySelector("img").alt.toLowerCase();
+    if (altText.includes(filter)) {
+      matches.push(item);
+    } else {
+      others.push(item);
+    }
+  });
+
+  // Limpiar galería y volver a insertar: primero los coincidentes
+  gallery.innerHTML = "";
+  matches.forEach(item => gallery.appendChild(item));
+  others.forEach(item => gallery.appendChild(item));
+});
+</script>
+
 </body>
 </html>
+
 
 
 
